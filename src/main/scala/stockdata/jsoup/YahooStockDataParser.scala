@@ -34,6 +34,23 @@ class YahooStockDataParser(document: Document) {
 	}
 
 	/**
+	 * Gets current ask info from document
+	 * @return ask info string representation
+	 *         ie ``362.05 x 3100`
+	 */
+	def getAskInfo: String = {
+		getHtmlProperty("askInfo")
+	}
+
+	/**
+	 * Gets current volume info from document
+	 * @return volume info ie `32,972,981`
+	 */
+	def getVolume: String = {
+		getHtmlProperty("volume")
+	}
+
+	/**
 	 * Wrapper method to pull in html stock property from abbreviated
 	 * config path (ie -> only specifiying the subproperty under stocksPage.htmlTags)
 	 * @param selector The subpath tag
