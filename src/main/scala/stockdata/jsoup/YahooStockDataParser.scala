@@ -25,6 +25,15 @@ class YahooStockDataParser(document: Document) {
 	}
 
 	/**
+	 * Gets current bid info from document
+	 * @return bid info string representation
+	 *         ie `362.01 x 800`
+	 */
+	def getBidInfo: String = {
+		getHtmlProperty("bidInfo")
+	}
+
+	/**
 	 * Wrapper method to pull in html stock property from abbreviated
 	 * config path (ie -> only specifiying the subproperty under stocksPage.htmlTags)
 	 * @param selector The subpath tag
@@ -67,7 +76,7 @@ object YahooStockDataParser {
 	 * @param document The jsoup document to check
 	 * @return true if error, false otherwise
 	 */
-	def checkDocumentForError(document: Document): Boolean = {
+	private def checkDocumentForError(document: Document): Boolean = {
 		val res = Parser.getTextFromElement(
 			document,
 			getHtmlTagConfig("error")
