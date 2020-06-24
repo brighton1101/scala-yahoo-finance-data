@@ -24,6 +24,13 @@ class YahooStockDataParserSpec extends AnyFlatSpec with Matchers {
 		parser.getBidInfo shouldBe "362.01 x 800"
 		parser.getCurrPrice shouldBe "360.48"
 		parser.getDaysRange shouldBe "358.52 - 368.77"
+		parser.getDayChange shouldBe "-6.05 (-1.65%)"
+		parser.getOpen shouldBe "365.00"
+		parser.getEps shouldBe "12.73"
+		parser.getEarningsDate shouldBe "Jul 28, 2020"
+		parser.getForwardDividendYield shouldBe "3.28 (0.89%)"
+		parser.getYearTargetEst shouldBe "332.43"
+		parser.getExDividendDate shouldBe "May 08, 2020"
 	}
 
 	"The stock data parser" should "not return an instance of YahooStockDataParser if invalid stock" in {
