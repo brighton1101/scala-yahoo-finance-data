@@ -27,6 +27,9 @@ class YahooStockData(parser: YahooStockDataParser) {
 			bidInfo = parser.getBidInfo,
 			daysRange = parser.getDaysRange,
 			eps = parser.getEps,
+			// The below four fields are sometimes
+			// broken depending on what you are viewing.
+			// This data should likely not be depended on.
 			earningsDate = parser.getEarningsDate,
 			forwardDividendYield = parser.getForwardDividendYield,
 			yearTargetEst = parser.getYearTargetEst,
