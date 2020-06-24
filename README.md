@@ -15,4 +15,5 @@ stock information live on their site that can be parsed.
 
 ### Roadmap / What needs to be done:
 - Add GCP cloudfunction wrapper to make
+- Add simple cli for ease of use
 - Tests for controller class
