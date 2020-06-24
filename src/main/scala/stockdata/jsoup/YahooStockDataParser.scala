@@ -4,6 +4,22 @@ import org.jsoup.nodes.Document
 import stockdata.util.Config
 import scala.util._
 
+/**
+ * A class for processing Jsoup documents created from
+ * Yahoo stock information web pages
+ * 
+ * NOTE: You can easily build off of this by getting the 
+ * proper selector for whatever property you would like to 
+ * retrieve. Add to stocksPage.htmlTags.{your tag here} and 
+ * add a method below
+ * 
+ * @see https://finance.yahoo.com/quote/AAPL for an example
+ *      of what kind of document is being processed
+ * @see YahooStockDataParserSpec to see the output format for 
+ *      each available property
+ *
+ * @param document Jsoup document from yahoo stock page
+ */
 class YahooStockDataParser(document: Document) {
 	import YahooStockDataParser._
 
@@ -16,12 +32,45 @@ class YahooStockDataParser(document: Document) {
 	}
 
 	/**
+	 * Gets day change info from document
+	 * @return string rep of day change
+	 *         ie `-6.10 (-1.66%)`
+	 */
+	def getDayChange: String = {
+		getHtmlProperty("dayChange")
+	}
+
+	/**
+	 * Gets open info from document
+	 * @return string rep of open ie `365.00`
+	 */
+	def getOpen: String = {
+		getHtmlProperty("open")
+	}
+
+	/**
+	 * Gets previous close from document
+	 * @return previous close string
+	 */
+	def getPrevClose: String = {
+		getHtmlProperty("prevClose")
+	}
+
+	/**
 	 * Gets current days range from document
 	 * @return days range represented as a string
 	 *         ie `price1 - price2`
 	 */
 	def getDaysRange: String = {
 		getHtmlProperty("daysRange")
+	}
+
+	/**
+	 * Gets 52 week range info from document
+	 * @return range info ie `price1 - price2`
+	 */
+	def getYearRange: String = {
+		getHtmlProperty("yearRange")
 	}
 
 	/**
@@ -48,6 +97,79 @@ class YahooStockDataParser(document: Document) {
 	 */
 	def getVolume: String = {
 		getHtmlProperty("volume")
+	}
+
+	/**
+	 * Gets avg volume info from document
+	 * @return avg volume info ie `32,972,981`
+	 */
+	def getAvgVolume: String = {
+		getHtmlProperty("avgVolume")
+	}
+
+	/**
+	 * Gets market cap info from document
+	 * @return market cap ie `1.562T`
+	 */
+	def getMarketCap: String = {
+		getHtmlProperty("marketCap")
+	}
+
+	/**
+	 * Gets Beta (5Y Monthly) info from document
+	 * @return beta ie `1.17`
+	 */
+	def getBeta: String = {
+		getHtmlProperty("beta")
+	}
+
+	/**
+	 * Gets PE Ratio (TTM) info from document
+	 * @return pe ratio ie `28.32`
+	 */
+	def getPeRatio: String = {
+		getHtmlProperty("peRatio")
+	}
+
+	/**
+	 * Gets PS (TTM) info from document
+	 * @return eps info ie `12.73`
+	 */
+	def getEps: String = {
+		getHtmlProperty("eps")
+	}
+
+	/**
+	 * Gets earnings date info from document
+	 * @return earnings date ie `Jul 28, 2020 - Aug 03, 2020`
+	 */
+	def getEarningsDate: String = {
+		getHtmlProperty("earningsDate")
+	}
+
+	/**
+	 * Gets Forward Dividend & Yield from document
+	 * @return forward dividend and yield
+	 *         ie `3.28 (0.89%)`
+	 */
+	def getForwardDividendYield: String = {
+		getHtmlProperty("forwardDividendYield")
+	}
+
+	/**
+	 * Gets 1 year est from document
+	 * @return 1 year est ie `332.43`
+	 */
+	def getYearTargetEst: String = {
+		getHtmlProperty("yearTargetEst")
+	}
+
+	/**
+	 * Gets ex dividend date info from document
+	 * @return ex dividend date ie `May 08, 2020`
+	 */
+	def getExDividendDate: String = {
+		getHtmlProperty("exDividendDate")
 	}
 
 	/**

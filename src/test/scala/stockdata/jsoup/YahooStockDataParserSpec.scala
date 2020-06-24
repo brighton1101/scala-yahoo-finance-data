@@ -13,6 +13,12 @@ class YahooStockDataParserSpec extends AnyFlatSpec with Matchers {
 		val parser = YahooStockDataParser
 			.loadFromDocument(doc)
 			.get
+		parser.getPeRatio shouldBe "28.32"
+		parser.getBeta shouldBe "1.17"
+		parser.getMarketCap shouldBe "1.562T"
+		parser.getPrevClose shouldBe "366.53"
+		parser.getYearRange shouldBe "192.58 - 372.38"
+		parser.getAvgVolume shouldBe "38,749,604"
 		parser.getVolume shouldBe "32,972,981"
 		parser.getAskInfo shouldBe "362.05 x 3100"
 		parser.getBidInfo shouldBe "362.01 x 800"
