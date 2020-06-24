@@ -34,5 +34,5 @@ val res0: String = 360.06
 ```
 
 ### Roadmap / What needs to be done:
-- Add GCP cloudfunction wrapper to make
+- Add GCP cloudfunction wrapper to make data publicly available to others
 - Tests for controller class
