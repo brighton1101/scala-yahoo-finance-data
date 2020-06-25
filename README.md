@@ -56,6 +56,7 @@ chmod u+x start-local-service.sh
 
 ### Roadmap / What needs to be done:
 - Tests for controller class
+- Async/futures for aggregating parsing (ie, if user is using api and passes in many tickers, that operation is currently synchronous :( )
 - Background service triggered at end of day to archive stock prices of popular stocks (S&P 500?) and record results to GCS
 
 ### Deployment / Configuration Strategy for Endpoint
