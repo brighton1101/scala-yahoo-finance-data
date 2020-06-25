@@ -5,7 +5,7 @@ import org.jsoup.nodes.Document
 import stockdata.jsoup.YahooStockDataParser
 import stockdata.model.YahooStockResponse
 
-class YahooStockData(parser: YahooStockDataParser) {
+class YahooStockData(parser: YahooStockDataParser, ticker: String = "") {
 
   /**
     * Gets response from parser
@@ -13,6 +13,7 @@ class YahooStockData(parser: YahooStockDataParser) {
     */
   def getResponse: YahooStockResponse = {
     new YahooStockResponse(
+      ticker = ticker,
       currPrice = parser.getCurrPrice,
       dayChange = parser.getDayChange,
       open = parser.getOpen,
@@ -48,7 +49,7 @@ object YahooStockData {
     val parser = YahooStockDataParser
       .loadFromTicker(ticker)
       .get
-    new YahooStockData(parser)
+    new YahooStockData(parser, ticker)
   }
 
   /**

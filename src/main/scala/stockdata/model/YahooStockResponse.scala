@@ -1,6 +1,7 @@
 package stockdata.model
 
 case class YahooStockResponse(
+    ticker: String = null,
     currPrice: String = null,
     dayChange: String = null,
     open: String = null,
