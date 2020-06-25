@@ -16,6 +16,7 @@ stock information live on their site that can be parsed.
 - Accepts ticker as a parameter and returns object containing all relevant fields available online
 
 ### Usage via Scala shell
+- Data on one stock
 ```
 🌴🌴🌴 stockdata (master) $ sbt console
 ...
@@ -33,6 +34,26 @@ val response: stockdata.model.YahooStockResponse = YahooStockResponse(360.06,-6.
 
 scala> response.currPrice
 val res0: String = 360.06
+```
+- Data on multiple
+```
+🌴🌴🌴 stockdata (master) $ sbt console
+...
+Welcome to Scala 2.13.2 (OpenJDK 64-Bit Server VM, Java 13.0.2).
+Type in expressions for evaluation. Or try :help.
+
+scala> import stockdata.controller.AggregateYahooStockDataController
+import stockdata.controller.AggregateYahooStockDataController
+
+scala> val tickers = Array("AAPL", "ETSY")
+val tickers: Array[String] = Array(AAPL, ETSY)
+
+scala> val agController = AggregateYahooStockDataController.loadFromTickers(tickers)
+val agController: stockdata.controller.AggregateYahooStockDataController = stockdata.controller.AggregateYahooStockDataController@76abfc3
+
+scala> agController.getControllers.foreach(c => println(c.getResponse))
+YahooStockResponse(AAPL,364.84,+4.78 (+1.33%),360.70,360.06,28.66,1.17,1.581T,192.58 - 372.38,38,379,645,33,707,769,364.91 x 1000,364.40 x 900,357.57 - 365.00,12.73,Jul 28, 2020,3.28 (0.91%),332.43,May 08, 2020)
+YahooStockResponse(ETSY,101.28,+3.11 (+3.17%),98.30,98.17,164.68,1.65,12.02B,29.95 - 103.94,4,074,179,3,685,269,101.49 x 800,100.36 x 800,96.57 - 102.39,0.62,Jul 30, 2020,N/A (N/A),null,null)
 ```
 
 ### Usage via GCP Cloudfunctions
@@ -56,11 +77,10 @@ chmod u+x start-local-service.sh
 
 ### Roadmap / What needs to be done:
 - Tests for controller class
-- Async/futures for aggregating parsing (ie, if user is using api and passes in many tickers, that operation is currently synchronous :( )
 - Background service triggered at end of day to archive stock prices of popular stocks (S&P 500?) and record results to GCS
 
 ### Deployment / Configuration Strategy for Endpoint
 - Uses Google Cloud / Cloudbuilds to deploy (essentially breaks build steps down into operations within Docker containers)
 - Ensure all necessary permissions are set (enable Google Cloudfunctions API and Cloudbuilds API)
 - Run `gcloud builds submit`
-- If you get an access denied for GCS give the cloudfunction service agent access to GCS in console
+- If you get an access denied for GCS, give the cloudfunction service agent access to GCS in console
