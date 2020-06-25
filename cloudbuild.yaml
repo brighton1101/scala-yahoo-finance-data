@@ -1,0 +1,25 @@
+steps:
+### Copies necessary POM to root of project ###
+- name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: cp
+  args:
+  - cloudfunctions/get-curr-data-pom.xml
+  - pom.xml
+### Uploads function to GCP ###
+- name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: gcloud
+  args:
+  - functions
+  - deploy
+  - get-curr-data-service
+  - --entry-point
+  - stockdata.service.GetCurrDataService
+  - --runtime
+  - java11
+  - --trigger-http
+  - --allow-unauthenticated
+### Removes pom from root ###
+- name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: rm
+  args:
+  - pom.xml

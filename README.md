@@ -8,6 +8,8 @@ stock information live on their site that can be parsed.
 - Scala
 - SBT
 - Java 8
+- mvn (for starting local service)
+- gcloud (Google Cloud CLI) for deployment
 
 ### What this does:
 - Client with controller class to retrieve stock data from Yahoo Stocks
@@ -33,6 +35,31 @@ scala> response.currPrice
 val res0: String = 360.06
 ```
 
+### Usage via GCP Cloudfunctions
+- Unfortunately, only POM files are supported here
+- The deployment config (see below) copies a POM file out of the `/cloudfunctions` dir that contains all dependencies and puts it in the root
+- TO USE SERVICE LOCALLY: from the root do the following
+```
+chmod u+x start-local-service.sh
+./start-local-service.sh
+```
+
+### Usage via API Service
+- By default locally the service is started on port 8080, and only has one available endpoint
+- Add a query param for ticker, followed by list of tickers that you would like data for separated by commas
+- ie `ticker=AAPL,ETSY`
+- Example call:
+```
+🌴🌴🌴 ~ $ curl http://localhost:8080?ticker=etsy,aapl
+{"success":true,"data":[{"currPrice":"100.79","dayChange":"+2.62 (+2.67%)","open":"98.30","prevClose":"98.17","peRatio":"163.89","beta":"1.65","marketCap":"11.962B","yearRange":"29.95 - 103.94","avgVolume":"4,074,179","volume":"2,728,085","askInfo":"100.54 x 800","bidInfo":"100.39 x 800","daysRange":"96.57 - 102.39","eps":"0.62","earningsDate":"Jul 30, 2020","forwardDividendYield":"N/A (N/A)"},{"currPrice":"362.11","dayChange":"+2.05 (+0.57%)","open":"360.70","prevClose":"360.06","peRatio":"28.45","beta":"1.17","marketCap":"1.569T","yearRange":"192.58 - 372.38","avgVolume":"38,379,645","volume":"27,011,411","askInfo":"360.95 x 1400","bidInfo":"360.90 x 900","daysRange":"357.57 - 364.02","eps":"12.73","earningsDate":"Jul 28, 2020","forwardDividendYield":"3.28 (0.91%)","yearTargetEst":"332.43","exDividendDate":"May 08, 2020"}]}
+```
+
 ### Roadmap / What needs to be done:
-- Add GCP cloudfunction wrapper to make data publicly available to others
 - Tests for controller class
+- Background service triggered at end of day to archive stock prices of popular stocks (S&P 500?) and record results to GCS
+
+### Deployment / Configuration Strategy for Endpoint
+- Uses Google Cloud / Cloudbuilds to deploy (essentially breaks build steps down into operations within Docker containers)
+- Ensure all necessary permissions are set (enable Google Cloudfunctions API and Cloudbuilds API)
+- Run `gcloud builds submit`
+- If you get an access denied for GCS give the cloudfunction service agent access to GCS in console
