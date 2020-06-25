@@ -51,8 +51,7 @@ class GetCurrDataService extends HttpFunction {
       try {
         val agController = AggregateYahooStockDataController
           .loadFromTickers(tickers)
-        val stockResponses = agController
-          .getControllers
+        val stockResponses = agController.getControllers
           .map(c => c.getResponse)
         ApiResponse(
           true,
