@@ -19,7 +19,7 @@ object Config {
     try {
       conf.getString(path)
     } catch {
-      case e => null
+      case e: Throwable => null
     }
   }
 }

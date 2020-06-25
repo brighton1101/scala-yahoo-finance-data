@@ -1,6 +1,6 @@
 package stockdata.service
 
-import stockdata.controller.YahooStockData
+import stockdata.controller.AggregateYahooStockDataController
 import stockdata.model.{ApiResponse}
 import com.google.cloud.functions.{HttpFunction, HttpRequest, HttpResponse}
 import com.google.gson.Gson;
@@ -49,16 +49,17 @@ class GetCurrDataService extends HttpFunction {
     if (tickers.isEmpty || tickers(0) == "") return new ApiResponse
     else {
       try {
-        val controllers = tickers
-          .map(t => YahooStockData.loadFromTicker(t))
-        val stockResponses = controllers
+        val agController = AggregateYahooStockDataController
+          .loadFromTickers(tickers)
+        val stockResponses = agController
+          .getControllers
           .map(c => c.getResponse)
         ApiResponse(
           true,
           stockResponses
         )
       } catch {
-        case e => new ApiResponse
+        case e: Throwable => new ApiResponse
       }
     }
   }
