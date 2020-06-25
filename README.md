@@ -84,3 +84,4 @@ chmod u+x start-local-service.sh
 - Ensure all necessary permissions are set (enable Google Cloudfunctions API and Cloudbuilds API)
 - Run `gcloud builds submit`
 - If you get an access denied for GCS, give the cloudfunction service agent access to GCS in console
+- A note on cloudfunctions: cold start times (especially for JVM languages) are very slow. If this was an application in prod that required speed, I would use servlets and Jetty/Tomcat and run it in a compute engine rather than using cloudfunctions
